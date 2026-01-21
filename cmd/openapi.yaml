@@ -1,0 +1,250 @@
+openapi: 3.0.3
+info:
+  title: Employee Maintenance API
+  description: API for managing employees and departments
+  version: 1.0.0
+servers:
+  - url: http://34.29.65.177:8080
+    description: GCloud server
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /departments:
+    get:
+      summary: Get all departments
+      tags:
+        - Departments
+      responses:
+        '200':
+          description: List of departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Department'
+    post:
+      summary: Create a new department
+      tags:
+        - Departments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+      responses:
+        '200':
+          description: Created department
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+        '400':
+          description: Invalid request body
+
+  /departments/{id}:
+    get:
+      summary: Get a department by ID
+      tags:
+        - Departments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Department found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+        '400':
+          description: Invalid department ID
+        '404':
+          description: Department not found
+    put:
+      summary: Update a department
+      tags:
+        - Departments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Department'
+      responses:
+        '200':
+          description: Updated department
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Department'
+        '400':
+          description: Invalid request (bad ID or body mismatch)
+        '404':
+          description: Department not found
+    delete:
+      summary: Delete a department
+      tags:
+        - Departments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Department deleted
+        '400':
+          description: Invalid department ID
+        '404':
+          description: Department not found
+
+  /employees:
+    get:
+      summary: Get all employees
+      tags:
+        - Employees
+      responses:
+        '200':
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+    post:
+      summary: Create a new employee
+      tags:
+        - Employees
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Created employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid request body
+
+  /employees/{id}:
+    get:
+      summary: Get an employee by ID
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Employee found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid employee ID
+        '404':
+          description: Employee not found
+    put:
+      summary: Update an employee
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Updated employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Invalid request (bad ID or body mismatch)
+        '404':
+          description: Employee not found
+    delete:
+      summary: Delete an employee
+      tags:
+        - Employees
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Employee deleted
+        '400':
+          description: Invalid employee ID
+        '404':
+          description: Employee not found
+
+components:
+  schemas:
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Engineering
+      required:
+        - name
+
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
+        department:
+          $ref: '#/components/schemas/Department'
+      required:
+        - firstName
+        - lastName
+        - email
