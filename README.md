@@ -48,7 +48,7 @@ Swagger UI is available at `http://localhost:8080/swagger` when the server is ru
 
 ## Running Tests
 
-Tests are located in the `services/` directory alongside the service implementations.
+Tests are located in the `services/` directory alongside the service implementations. I didn't create http handling tests (yea, I should, but you can test them all working in the swagger ui)
 
 ```bash
 go test ./services/...
